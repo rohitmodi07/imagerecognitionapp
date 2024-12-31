@@ -23,16 +23,14 @@ public class ImageRecognitionService {
     @Autowired
     private String api_url;
     @Autowired
-    private String api_token;
-    @Autowired
     private RestTemplate restTemplate;
 
-    public ResponseEntity<Object> describeImage(byte[] fileData){
+    public ResponseEntity<Object> describeImage(byte[] fileData, String apikey){
 
         try {
             // Set the request headers
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + api_token);
+            headers.set("Authorization", "Bearer " + apikey);
             headers.setContentType(org.springframework.http.MediaType.APPLICATION_OCTET_STREAM);
 
             // Prepare request entity to send in the request
@@ -50,12 +48,12 @@ public class ImageRecognitionService {
 
     }
 
-    public String generateTextForImage(byte[] fileData){
+    public String generateTextForImage(byte[] fileData, String apikey){
 
         try {
             // Set the request headers
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + api_token);
+            headers.set("Authorization", "Bearer " + apikey);
             headers.setContentType(org.springframework.http.MediaType.APPLICATION_OCTET_STREAM);
 
             // Prepare request entity to send in the request
@@ -74,7 +72,8 @@ public class ImageRecognitionService {
 
     }
 
-    public ResponseEntity<byte[]> generateImageWithText(MultipartFile fileData, String message) throws IOException {
+    public ResponseEntity<byte[]> generateImageWithText(MultipartFile fileData, String message,
+                                                        String apikey) throws IOException {
         // Convert MultipartFile to BufferedImage
         BufferedImage originalImage = ImageIO.read(fileData.getInputStream());
 
@@ -85,7 +84,7 @@ public class ImageRecognitionService {
         graphics2D.setFont(new Font("Arial", Font.BOLD, 50));
         graphics2D.setColor(Color.RED);
         if(message == null || message.isEmpty()){
-            message = generateTextForImage(fileData.getBytes());
+            message = generateTextForImage(fileData.getBytes(), apikey);
         }
 
         // Calculate the coordinates to center the text

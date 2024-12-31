@@ -11,20 +11,10 @@ public class ImageRecognitionConfig {
 
     @Value("${huggingface.api.url}")
     private String api_url;
-
-    @Value("${huggingface.api.token}")
-    private String api_token;
-
     @Bean
     public String api_url(){
         return this.api_url;
     }
-
-    @Bean
-    public String api_token(){
-        return this.api_token;
-    }
-
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

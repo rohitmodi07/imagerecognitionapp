@@ -18,20 +18,22 @@ public class ImageRecognitionController {
     private ImageRecognitionService imageRecognitionService;
 
     @PostMapping(value = "/imgRecognize", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> describeImage(@RequestPart("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Object> describeImage(@RequestPart("file") MultipartFile file,
+                                                @RequestParam("apikey") String apikey) throws IOException {
         if (file == null || file.isEmpty()) {
             return ResponseEntity.badRequest().body("No file uploaded");
         }
-        return imageRecognitionService.describeImage(file.getBytes());
+        return imageRecognitionService.describeImage(file.getBytes(), apikey);
     }
 
     @PostMapping(value = "/formImageWithText", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<byte[]> generateMessageAndPutOnImage(
             @RequestPart("file") MultipartFile file,
-            @RequestParam(value = "message", required = false) String message) throws IOException {
+            @RequestParam(value = "message", required = false) String message,
+            @RequestParam("apikey") String apikey) throws IOException {
         if (file == null || file.isEmpty()) {
             return ResponseEntity.badRequest().body("No file uploaded".getBytes());
         }
-        return imageRecognitionService.generateImageWithText(file, message);
+        return imageRecognitionService.generateImageWithText(file, message, apikey);
     }
 }

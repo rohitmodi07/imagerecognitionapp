@@ -22,12 +22,12 @@ To generate a token in HuggingFace follow the steps
 
 Following features has been added in this project
 
-1. application exposes a REST API (/imgRecognize) endpoint that takes an image as input and returns the image description.
+1. application exposes a REST API (/imgRecognize) endpoint that takes an image and hugging face token as input and returns the image description.
 
   Example curl for postman -
   
   curl -X 'POST' \
-    'http://localhost:8080/imgRecognize' \
+    'http://localhost:8080/imgRecognize?apikey=your_provided_huggingface_token' \
     -H 'accept: */*' \
     -H 'Content-Type: multipart/form-data' \
     -F 'file=@dog_on_roof.jpg;type=image/jpeg'
@@ -40,14 +40,14 @@ Following features has been added in this project
     "generated_text": "a dog standing on top of a building with a blue sky in the background"
   }
 
-2. application exposes a REST API (/formImageWithText) endpoint that takes an image as input and one message which is optional. so this endpoint works in following way
+2. application exposes a REST API (/formImageWithText) endpoint that takes an image, hugging face token as input and one message which is optional. so this endpoint works in following way
    a. If user upload an image and does not provide any message in the message field then upon submission we get an image with a description painted over the image, description will be provided 
       from the hugging face api which is AI generated image description
 
       Example curl for postman -
 
       curl -X 'POST' \
-      'http://localhost:8080/formImageWithText?message=Many%20colorful%20fishes%20in%20sea' \
+      'http://localhost:8080/formImageWithText?apikey=your_provided_huggingface_token' \
       -H 'accept: */*' \
       -H 'Content-Type: multipart/form-data' \
       -F 'file=@fish_under_water.jpg;type=image/jpeg'
@@ -65,7 +65,7 @@ Following features has been added in this project
       Example curl for postman -
 
       curl -X 'POST' \
-      'http://localhost:8080/formImageWithText?message=Many%20colorful%20fishes%20in%20sea' \
+      'http://localhost:8080/formImageWithText?message=Many%20colorful%20fishes%20in%20sea&apikey=your_provided_huggingface_token' \
       -H 'accept: */*' \
       -H 'Content-Type: multipart/form-data' \
       -F 'file=@fish_under_water.jpg;type=image/jpeg'
